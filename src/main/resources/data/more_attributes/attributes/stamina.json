@@ -1,0 +1,19 @@
+{
+  "name": "stamina",
+  "displayCondition": [],
+  "modifiers": [
+    {
+      "attribute": "generic.armor_toughness",
+      "mod": "minecraft",
+      "type": "base",
+      "value": 0.02
+    },
+    {
+      "attribute": "hunger_consumption",
+      "mod": "more_attributes",
+      "type": "base",
+      "value": -0.02
+    }
+  ],
+  "baseLevel": 10
+}

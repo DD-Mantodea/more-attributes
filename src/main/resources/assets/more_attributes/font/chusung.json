@@ -1,0 +1,11 @@
+{
+    "providers": [
+        {
+            "type": "ttf",
+            "file": "more_attributes:chusung.ttf",
+            "size": 9,
+            "oversample": 6,
+            "skip": ""
+        }
+    ]
+}

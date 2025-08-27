@@ -1,0 +1,1 @@
+org.mantodea.more_attributes.compats.kubejs.MoreAttributesPlugin

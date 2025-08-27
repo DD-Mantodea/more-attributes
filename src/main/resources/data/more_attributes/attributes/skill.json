@@ -1,0 +1,25 @@
+{
+  "name": "skill",
+  "displayCondition": [],
+  "modifiers": [
+    {
+      "attribute": "cooldown_reduction",
+      "mod": "irons_spellbooks",
+      "type": "base",
+      "value": 0.02
+    },
+    {
+      "attribute": "cast_time_reduction",
+      "mod": "irons_spellbooks",
+      "type": "base",
+      "value": 0.02
+    },
+    {
+      "attribute": "generic.attack_speed",
+      "mod": "minecraft",
+      "type": "base",
+      "value": 0.02
+    }
+  ],
+  "baseLevel": 10
+}

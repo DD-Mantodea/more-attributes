@@ -1,0 +1,19 @@
+{
+  "name": "strength",
+  "displayCondition": [],
+  "modifiers": [
+    {
+      "attribute": "melee_damage",
+      "mod": "more_attributes",
+      "type": "base",
+      "value": 0.05
+    },
+    {
+      "attribute": "equip_load_max",
+      "mod": "more_attributes",
+      "type": "addition",
+      "value": 35
+    }
+  ],
+  "baseLevel": 10
+}

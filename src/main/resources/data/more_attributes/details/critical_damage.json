@@ -1,0 +1,6 @@
+{ 
+  "name": "critical_damage",
+  "mod": "more_attributes",
+  "displayCondition": [],
+  "displayAsPercentage": true
+}

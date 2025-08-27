@@ -1,0 +1,15 @@
+{
+  "name": "intelligence",
+  "displayCondition": [
+    "irons_spellbooks"
+  ],
+  "modifiers": [
+    {
+      "attribute": "spell_power",
+      "mod": "irons_spellbooks",
+      "type": "base",
+      "value": 0.02
+    }
+  ],
+  "baseLevel": 10
+}

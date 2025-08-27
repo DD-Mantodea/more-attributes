@@ -1,0 +1,40 @@
+package org.mantodea.more_attributes.commands;
+
+import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import org.mantodea.more_attributes.messages.AttributesChannel;
+import org.mantodea.more_attributes.messages.ResetClassMessage;
+import org.mantodea.more_attributes.utils.AttributeUtils;
+import org.mantodea.more_attributes.utils.ClassUtils;
+import org.mantodea.more_attributes.utils.ModifierUtils;
+
+import java.util.Objects;
+
+public class ResetClassCommand {
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+        dispatcher.register(
+            Commands.literal("more_attributes")
+            .then(
+                Commands.literal("reset_class")
+                .then(
+                    Commands.argument("player", EntityArgument.player())
+                    .executes(context -> {
+                        ServerPlayer player = EntityArgument.getPlayer(context, "player");
+
+                        ClassUtils.setPlayerClass(player, "");
+
+                        AttributesChannel.sendToClient(new ResetClassMessage(), player);
+
+                        ModifierUtils.DetailModifiers.Level.rebuildModifiers(player);
+
+                        return 0;
+                    })
+                )
+            )
+        );
+    }
+}

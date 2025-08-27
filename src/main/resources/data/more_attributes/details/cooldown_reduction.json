@@ -1,0 +1,7 @@
+{
+  "name": "cooldown_reduction",
+  "mod": "irons_spellbooks",
+  "displayCondition": [
+    "irons_spellbooks"
+  ]
+}

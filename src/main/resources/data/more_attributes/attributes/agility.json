@@ -1,0 +1,19 @@
+{
+  "name": "agility",
+  "displayCondition": [],
+  "modifiers": [
+    {
+      "attribute": "generic.movement_speed",
+      "mod": "minecraft",
+      "type": "base",
+      "value": 0.05
+    },
+    {
+      "attribute": "jump_force",
+      "mod": "more_attributes",
+      "type": "base",
+      "value": 0.01
+    }
+  ],
+  "baseLevel": 10
+}

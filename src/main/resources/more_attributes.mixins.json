@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "org.mantodea.more_attributes.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "more_attributes.refmap.json",
+  "mixins": [
+    "vanilla.ItemStackMixin",
+    "vanilla.LivingEntityMixin",
+    "vanilla.PlayerMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

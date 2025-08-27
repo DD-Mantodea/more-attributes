@@ -1,0 +1,19 @@
+{
+  "name": "endurance",
+  "displayCondition": [],
+  "modifiers": [
+    {
+      "attribute": "max_stamina",
+      "mod": "parcool",
+      "type": "addition",
+      "value": 0.25
+    },
+    {
+      "attribute": "equip_load_max",
+      "mod": "more_attributes",
+      "type": "addition",
+      "value": 100
+    }
+  ],
+  "baseLevel": 10
+}

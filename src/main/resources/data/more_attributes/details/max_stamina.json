@@ -1,0 +1,7 @@
+{
+  "name": "max_stamina",
+  "mod": "parcool",
+  "displayCondition": [
+    "parcool"
+  ]
+}

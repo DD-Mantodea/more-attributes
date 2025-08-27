@@ -1,0 +1,19 @@
+{
+  "name": "luck",
+  "displayCondition": [],
+  "modifiers": [
+    {
+      "attribute": "generic.luck",
+      "mod": "minecraft",
+      "type": "addition",
+      "value": 0.25
+    },
+    {
+      "attribute": "damage_reduction",
+      "mod": "more_attributes",
+      "type": "base",
+      "value": 0.005
+    }
+  ],
+  "baseLevel": 10
+}

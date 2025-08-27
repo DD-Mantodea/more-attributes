@@ -1,0 +1,7 @@
+{
+  "name": "spell_power",
+  "mod": "irons_spellbooks",
+  "displayCondition": [
+    "irons_spellbooks"
+  ]
+}

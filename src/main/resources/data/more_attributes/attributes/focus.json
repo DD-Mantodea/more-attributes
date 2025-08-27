@@ -1,0 +1,13 @@
+{
+  "name": "focus",
+  "displayCondition": [],
+  "modifiers": [
+    {
+      "attribute": "critical_chance",
+      "mod": "more_attributes",
+      "type": "base",
+      "value": 0.02
+    }
+  ],
+  "baseLevel": 10
+}

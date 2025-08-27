@@ -1,0 +1,7 @@
+{
+  "name": "max_mana",
+  "mod": "irons_spellbooks",
+  "displayCondition": [
+    "irons_spellbooks"
+  ]
+}

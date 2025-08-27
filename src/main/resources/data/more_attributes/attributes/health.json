@@ -1,0 +1,19 @@
+{
+  "name": "health",
+  "displayCondition": [],
+  "modifiers": [
+    {
+      "attribute": "generic.max_health",
+      "mod": "minecraft",
+      "type": "addition",
+      "value": 0.5
+    },
+    {
+      "attribute": "max_mana",
+      "mod": "irons_spellbooks",
+      "type": "base",
+      "value": 0.02
+    }
+  ],
+  "baseLevel": 10
+}
