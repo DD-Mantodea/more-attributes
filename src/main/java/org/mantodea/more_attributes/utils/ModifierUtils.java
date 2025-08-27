@@ -755,10 +755,6 @@ public class ModifierUtils {
 
                 double overweightLoad = maxLoad * MoreAttributesConfig.Common.Instance.overweightPercent.get();
 
-                if (currentLoad < lightLoad) {
-                    speedMultiplier = 1f;
-                }
-
                 if (currentLoad >= lightLoad && currentLoad < normalLoad) {
                     speedMultiplier = 0.9f;
                 }
