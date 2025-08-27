@@ -42,7 +42,7 @@ public class ClientEvents {
 
             if (player == null || minecraft.screen instanceof SelectClassScreen || minecraft.screen instanceof ShowClassScreen || ClassLoader.Classes.isEmpty()) return;
 
-            if (!ClassUtils.hasSelectClass(player)) {
+            if (!ClassUtils.hasSelectClass(player) && !player.isDeadOrDying()) {
                 minecraft.setScreen(new SelectClassScreen());
             }
 

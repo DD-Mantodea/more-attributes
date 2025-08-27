@@ -28,10 +28,10 @@ public class ItemModifierLoader extends SimpleJsonResourceReloadListener {
         for(JsonElement jsonElement : map.values()) {
             ItemModifierData data = GSON.fromJson(jsonElement, ItemModifierData.class);
 
-            if(data == null || !ModUtils.checkCondition(data.displayCondition()))
+            if(data == null || !ModUtils.checkCondition(data.displayCondition))
                 continue;
 
-            data.modifiers = data.modifiers.stream().filter(m -> ModUtils.checkCondition(m.displayCondition())).toList();
+            data.modifiers = data.modifiers.stream().filter(m -> ModUtils.checkCondition(m.displayCondition)).toList();
 
             Modifiers.add(data);
         }

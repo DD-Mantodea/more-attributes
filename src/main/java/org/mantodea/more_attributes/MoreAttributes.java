@@ -3,6 +3,8 @@ package org.mantodea.more_attributes;
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -10,7 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.mantodea.more_attributes.attributes.DetailAttributes;
-import org.mantodea.more_attributes.capability.IClassCapability;
+import org.mantodea.more_attributes.capability.IPlayerClassCapability;
 import org.mantodea.more_attributes.configs.MoreAttributesConfig;
 import org.mantodea.more_attributes.datas.AttributeLoader;
 import org.mantodea.more_attributes.datas.ClassLoader;
@@ -27,7 +29,7 @@ public class MoreAttributes {
 
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public static Capability<IClassCapability> CLASS_CAPABILITY;
+    public static Capability<IPlayerClassCapability> PLAYER_CLASS = CapabilityManager.get(new CapabilityToken<>() {});
 
     public MoreAttributes() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, MoreAttributesConfig.Common.CommonSpec);
@@ -48,8 +50,8 @@ public class MoreAttributes {
     }
 
     private void reloadListenerEvent(AddReloadListenerEvent event) {
-        event.addListener(new ClassLoader());
         event.addListener(new AttributeLoader());
+        event.addListener(new ClassLoader());
         event.addListener(new DetailLoader());
         event.addListener(new ItemModifierLoader());
     }

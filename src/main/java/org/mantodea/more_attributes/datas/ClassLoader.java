@@ -31,20 +31,23 @@ public class ClassLoader extends SimpleJsonResourceReloadListener {
         for(JsonElement jsonElement : map.values()) {
             ClassData data = GSON.fromJson(jsonElement, ClassData.class);
 
-            if(data == null || !ModUtils.checkCondition(data.displayCondition()))
+            if(data == null || !ModUtils.checkCondition(data.displayCondition))
                 continue;
 
             boolean illegal = false;
+
             for(Map.Entry<String, Integer> entry : data.attributes.entrySet())
             {
-                if(!ForgeRegistries.ATTRIBUTES.containsKey(AttributeUtils.resourceLocationBuilder(entry.getKey())))
+                if(!data.attributes.containsKey(entry.getKey()))
                 {
                     MoreAttributes.LOGGER.error("Couldn't find attribute " + entry.getKey());
                     illegal = true;
                     break;
                 }
             }
-            if(!illegal) Classes.add(data);
+
+            if (!illegal)
+                Classes.add(data);
         }
     }
 }

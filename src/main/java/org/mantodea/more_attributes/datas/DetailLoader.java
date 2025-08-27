@@ -31,7 +31,7 @@ public class DetailLoader extends SimpleJsonResourceReloadListener {
         for (JsonElement jsonElement : map.values()) {
             DetailData data = GSON.fromJson(jsonElement, DetailData.class);
 
-            if (data == null || !ModUtils.checkCondition(data.displayCondition()))
+            if (data == null || !ModUtils.checkCondition(data.displayCondition))
                 continue;
 
             if (!data.mod.equals("more_attributes"))

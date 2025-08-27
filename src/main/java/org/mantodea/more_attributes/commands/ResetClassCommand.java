@@ -5,8 +5,9 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.server.level.ServerPlayer;
+import org.mantodea.more_attributes.datas.ClassData;
 import org.mantodea.more_attributes.messages.AttributesChannel;
-import org.mantodea.more_attributes.messages.ResetClassMessage;
+import org.mantodea.more_attributes.messages.SyncClassToClientMessage;
 import org.mantodea.more_attributes.utils.ClassUtils;
 import org.mantodea.more_attributes.utils.ModifierUtils;
 
@@ -23,7 +24,7 @@ public class ResetClassCommand {
 
                         ClassUtils.setPlayerClass(player, "");
 
-                        AttributesChannel.sendToClient(new ResetClassMessage(), player);
+                        AttributesChannel.sendToClient(new SyncClassToClientMessage(new ClassData()), player);
 
                         ModifierUtils.DetailModifiers.Level.rebuildModifiers(player);
 

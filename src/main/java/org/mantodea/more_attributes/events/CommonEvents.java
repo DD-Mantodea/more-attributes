@@ -14,7 +14,7 @@ import org.mantodea.more_attributes.datas.ClassLoader;
 import org.mantodea.more_attributes.datas.DetailLoader;
 import org.mantodea.more_attributes.datas.ItemModifierLoader;
 import org.mantodea.more_attributes.messages.AttributesChannel;
-import org.mantodea.more_attributes.messages.SyncDataMessage;
+import org.mantodea.more_attributes.messages.SyncDataToClientMessage;
 
 @Mod.EventBusSubscriber(modid = MoreAttributes.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CommonEvents {
@@ -48,7 +48,7 @@ public class CommonEvents {
             array.add(details);
             array.add(itemModifiers);
 
-            AttributesChannel.sendToClient(new SyncDataMessage(array), serverPlayer);
+            AttributesChannel.sendToClient(new SyncDataToClientMessage(array), serverPlayer);
         }
     }
 }

@@ -5,8 +5,4 @@ import java.util.List;
 
 public abstract class ConditionalContent {
     public List<String> displayCondition = new ArrayList<>();
-
-    public List<String> displayCondition() {
-        return displayCondition;
-    }
 }

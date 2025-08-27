@@ -10,18 +10,20 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.mantodea.more_attributes.MoreAttributes;
 
-public class ClassCapabilityProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
+public class PlayerClassCapabilityProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
-    private IClassCapability playerClass;
+    private IPlayerClassCapability playerClass = null;
+
+    private final LazyOptional<IPlayerClassCapability> optional = LazyOptional.of(this::getOrCreateCapability);
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        return cap == MoreAttributes.CLASS_CAPABILITY ? LazyOptional.of(this::getOrCreateCapability).cast() : LazyOptional.empty();
+        return MoreAttributes.PLAYER_CLASS.orEmpty(cap, optional);
     }
 
-    IClassCapability getOrCreateCapability() {
+    IPlayerClassCapability getOrCreateCapability() {
         if (playerClass == null) {
-            playerClass = new ClassCapability();
+            playerClass = new PlayerClassCapability();
         }
         return playerClass;
     }

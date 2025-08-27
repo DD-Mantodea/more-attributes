@@ -20,20 +20,20 @@ public class AttributesChannel {
 
     public static void RegisterMessages()
     {
-        Channel.messageBuilder(SyncDataMessage.class, 1, NetworkDirection.PLAY_TO_CLIENT)
-            .decoder(SyncDataMessage::new)
-            .encoder(SyncDataMessage::encode)
-            .consumerMainThread(SyncDataMessage::handle)
+        Channel.messageBuilder(SyncDataToClientMessage.class, 1, NetworkDirection.PLAY_TO_CLIENT)
+            .decoder(SyncDataToClientMessage::new)
+            .encoder(SyncDataToClientMessage::encode)
+            .consumerMainThread(SyncDataToClientMessage::handle)
             .add();
-        Channel.messageBuilder(SelectClassMessage.class, 2, NetworkDirection.PLAY_TO_SERVER)
-            .decoder(SelectClassMessage::new)
-            .encoder(SelectClassMessage::encode)
-            .consumerMainThread(SelectClassMessage::handle)
+        Channel.messageBuilder(SyncClassToServerMessage.class, 2, NetworkDirection.PLAY_TO_SERVER)
+            .decoder(SyncClassToServerMessage::new)
+            .encoder(SyncClassToServerMessage::encode)
+            .consumerMainThread(SyncClassToServerMessage::handle)
             .add();
-        Channel.messageBuilder(ResetClassMessage.class, 3, NetworkDirection.PLAY_TO_CLIENT)
-            .decoder(ResetClassMessage::new)
-            .encoder(ResetClassMessage::encode)
-            .consumerMainThread(ResetClassMessage::handle)
+        Channel.messageBuilder(SyncClassToClientMessage.class, 3, NetworkDirection.PLAY_TO_CLIENT)
+            .decoder(SyncClassToClientMessage::new)
+            .encoder(SyncClassToClientMessage::encode)
+            .consumerMainThread(SyncClassToClientMessage::handle)
             .add();
     }
 

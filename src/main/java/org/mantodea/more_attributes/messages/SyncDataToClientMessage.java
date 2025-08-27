@@ -17,9 +17,9 @@ import org.mantodea.more_attributes.utils.SlotUtils;
 import java.util.List;
 import java.util.function.Supplier;
 
-public record SyncDataMessage(JsonArray data) {
+public record SyncDataToClientMessage(JsonArray data) {
 
-    public SyncDataMessage(FriendlyByteBuf buf) {
+    public SyncDataToClientMessage(FriendlyByteBuf buf) {
         this(JsonParser.parseString(buf.readUtf()).getAsJsonArray());
     }
 
@@ -29,6 +29,7 @@ public record SyncDataMessage(JsonArray data) {
 
     public void handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context ctx = supplier.get();
+
         ctx.enqueueWork(() -> {
             Minecraft mc = Minecraft.getInstance();
             ClientLevel level = mc.level;
@@ -46,5 +47,7 @@ public record SyncDataMessage(JsonArray data) {
 
             SlotUtils.getSlots();
         });
+
+        ctx.setPacketHandled(true);
     }
 }

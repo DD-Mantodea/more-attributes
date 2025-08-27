@@ -8,9 +8,11 @@ import org.mantodea.more_attributes.datas.ClassData;
 import java.util.Map;
 
 @AutoRegisterCapability
-public interface IClassCapability extends INBTSerializable<CompoundTag> {
+public interface IPlayerClassCapability extends INBTSerializable<CompoundTag> {
 
     String getClassName();
+
+    ClassData getClassData();
 
     void setClass(ClassData data);
 

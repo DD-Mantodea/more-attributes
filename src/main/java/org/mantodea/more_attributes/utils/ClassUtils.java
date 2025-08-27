@@ -32,7 +32,7 @@ public class ClassUtils {
     }
 
     public static boolean hasSelectClass(Player player) {
-        var cap = player.getCapability(MoreAttributes.CLASS_CAPABILITY).resolve().orElse(null);
+        var cap = player.getCapability(MoreAttributes.PLAYER_CLASS).resolve().orElse(null);
 
         if (cap != null) {
             return !cap.getClassName().isEmpty();
@@ -42,7 +42,7 @@ public class ClassUtils {
     }
 
     public static String getPlayerClass(Player player) {
-        var cap = player.getCapability(MoreAttributes.CLASS_CAPABILITY).resolve().orElse(null);
+        var cap = player.getCapability(MoreAttributes.PLAYER_CLASS).resolve().orElse(null);
 
         if (cap != null) {
             return cap.getClassName();
@@ -58,6 +58,6 @@ public class ClassUtils {
             return;
         }
 
-        player.getCapability(MoreAttributes.CLASS_CAPABILITY).resolve().ifPresent(cap -> cap.setClass(data));
+        player.getCapability(MoreAttributes.PLAYER_CLASS).resolve().ifPresent(cap -> cap.setClass(data));
     }
 }

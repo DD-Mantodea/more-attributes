@@ -10,6 +10,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.mantodea.more_attributes.MoreAttributes;
 import org.mantodea.more_attributes.utils.AttributeUtils;
+import org.mantodea.more_attributes.utils.ModUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +32,8 @@ public class AttributeLoader extends SimpleJsonResourceReloadListener {
 
             AttributeData data = GSON.fromJson(jsonElement, AttributeData.class);
 
-            if(!ForgeRegistries.ATTRIBUTES.containsKey(AttributeUtils.resourceLocationBuilder(data.name)))
-            {
-                MoreAttributes.LOGGER.error("Couldn't find attribute " + data.name);
+            if(data == null || !ModUtils.checkCondition(data.displayCondition))
                 continue;
-            }
 
             for (var modifier : data.modifiers)
             {

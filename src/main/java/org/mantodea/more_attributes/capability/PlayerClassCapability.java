@@ -1,20 +1,38 @@
 package org.mantodea.more_attributes.capability;
 
 import net.minecraft.nbt.CompoundTag;
+import org.mantodea.more_attributes.datas.AttributeLoader;
 import org.mantodea.more_attributes.datas.ClassData;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClassCapability implements IClassCapability {
+public class PlayerClassCapability implements IPlayerClassCapability {
 
-    private String className;
+    private String className = "";
 
-    private Map<String, Integer> attributes;
+    private Map<String, Integer> attributes = new HashMap<>();
+
+    public PlayerClassCapability() {
+        for (var attribute : AttributeLoader.Attributes) {
+            attributes.put(attribute.name, 0);
+        }
+    }
 
     @Override
     public String getClassName() {
         return className;
+    }
+
+    @Override
+    public ClassData getClassData() {
+        var data = new ClassData();
+
+        data.name = className;
+
+        data.attributes = new HashMap<>(attributes);
+
+        return data;
     }
 
     @Override

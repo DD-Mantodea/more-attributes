@@ -305,7 +305,7 @@ public class ModifierUtils {
 
                 resetValues();
 
-                var cap = player.getCapability(MoreAttributes.CLASS_CAPABILITY).resolve().orElse(null);
+                var cap = player.getCapability(MoreAttributes.PLAYER_CLASS).resolve().orElse(null);
 
                 if (cap == null) {
                     return;
@@ -846,7 +846,7 @@ public class ModifierUtils {
 
         for (var modifier : modifiers)
         {
-            if(modifier == null || !ModUtils.checkCondition(modifier.displayCondition()))
+            if(modifier == null || !ModUtils.checkCondition(modifier.displayCondition))
                 continue;
 
             String name = modifier.attribute;
@@ -855,7 +855,7 @@ public class ModifierUtils {
                 AttributeUtils.getDetailData(modifier.mod, name) :
                 AttributeUtils.getAttributeData(name);
 
-            if(data == null || !ModUtils.checkCondition(data.displayCondition()) || !SlotUtils.Slots.contains(modifier.slot))
+            if(data == null || !ModUtils.checkCondition(data.displayCondition) || !SlotUtils.Slots.contains(modifier.slot))
                 continue;
 
             var location = modifier.slot.split(":");

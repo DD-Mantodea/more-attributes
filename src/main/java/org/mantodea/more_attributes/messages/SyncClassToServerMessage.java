@@ -13,24 +13,67 @@ import org.mantodea.more_attributes.utils.ModifierUtils;
 
 import java.util.function.Supplier;
 
-public record SelectClassMessage(String className) {
+public record SyncClassToServerMessage(ClassData data) {
 
-    public SelectClassMessage(FriendlyByteBuf buf) {
-        this(buf.readUtf());
+    public SyncClassToServerMessage(FriendlyByteBuf buf) {
+        this(getData(buf));
+    }
+
+    public static ClassData getData(FriendlyByteBuf buf) {
+        var classData = new ClassData();
+
+        classData.name = buf.readUtf();
+
+        var attributeSize = buf.readInt();
+
+        for (int i = 0; i < attributeSize; i++) {
+            var attr = buf.readUtf();
+
+            var level = buf.readInt();
+
+            classData.attributes.put(attr, level);
+        }
+
+        var startItemSize = buf.readInt();
+
+        for (int i = 0; i < startItemSize; i++) {
+            var item = buf.readUtf();
+
+            var stack = buf.readInt();
+
+            classData.startItems.put(item, stack);
+        }
+
+        return classData;
     }
 
     public void encode(FriendlyByteBuf buf) {
-        buf.writeUtf(className);
+        buf.writeUtf(data.name);
+
+        buf.writeInt(data.attributes.size());
+
+        for (var entry : data.attributes.entrySet()) {
+            buf.writeUtf(entry.getKey());
+
+            buf.writeInt(entry.getValue());
+        }
+
+        buf.writeInt(data.startItems.size());
+
+        for (var entry : data.startItems.entrySet()) {
+            buf.writeUtf(entry.getKey());
+
+            buf.writeInt(entry.getValue());
+        }
     }
 
     public void handle(Supplier<NetworkEvent.Context> context) {
         NetworkEvent.Context ctx = context.get();
-        ctx.enqueueWork(() -> {
-            ClassData data = ClassUtils.getClassData(className);
 
+        ctx.enqueueWork(() -> {
             ServerPlayer player = ctx.getSender();
 
-            if (player == null) return;
+            if (player == null || data == null) return;
 
             ClassUtils.setPlayerClass(player, data.name);
 
@@ -46,5 +89,7 @@ public record SelectClassMessage(String className) {
                 }
             }
         });
+
+        ctx.setPacketHandled(true);
     }
 }

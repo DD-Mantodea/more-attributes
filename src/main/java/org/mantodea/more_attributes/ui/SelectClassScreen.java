@@ -16,7 +16,7 @@ import org.mantodea.more_attributes.datas.AttributeData;
 import org.mantodea.more_attributes.datas.ClassData;
 import org.mantodea.more_attributes.datas.ClassLoader;
 import org.mantodea.more_attributes.messages.AttributesChannel;
-import org.mantodea.more_attributes.messages.SelectClassMessage;
+import org.mantodea.more_attributes.messages.SyncClassToServerMessage;
 import org.mantodea.more_attributes.utils.*;
 
 import java.util.List;
@@ -84,7 +84,7 @@ public class SelectClassScreen extends Screen {
 
         renderItems(graphics, mouseX, mouseY);
 
-        renderAttributes(graphics, mouseX, mouseY);
+        renderLevelAttributes(graphics, mouseX, mouseY);
     }
 
     @Override
@@ -163,7 +163,7 @@ public class SelectClassScreen extends Screen {
         }
     }
 
-    public void renderAttributes(GuiGraphics graphics, int mouseX, int mouseY) {
+    public void renderLevelAttributes(GuiGraphics graphics, int mouseX, int mouseY) {
         int lineHeight = font.lineHeight;
 
         int attributePosX = coordinates.startAttributesPosX;
@@ -255,7 +255,7 @@ public class SelectClassScreen extends Screen {
 
     public void selectClass()
     {
-        AttributesChannel.sendToServer(new SelectClassMessage(classData.name));
+        AttributesChannel.sendToServer(new SyncClassToServerMessage(classData));
 
         if (minecraft != null) {
             if (minecraft.player != null) {

@@ -1,7 +1,7 @@
 package org.mantodea.more_attributes.events;
 
-
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -11,8 +11,9 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.mantodea.more_attributes.MoreAttributes;
-import org.mantodea.more_attributes.capability.ClassCapabilityProvider;
-import org.mantodea.more_attributes.utils.ClassUtils;
+import org.mantodea.more_attributes.capability.PlayerClassCapabilityProvider;
+import org.mantodea.more_attributes.messages.AttributesChannel;
+import org.mantodea.more_attributes.messages.SyncClassToClientMessage;
 import org.mantodea.more_attributes.utils.ModifierUtils;
 import top.theillusivec4.curios.api.event.CurioChangeEvent;
 
@@ -53,16 +54,38 @@ public class PlayerEvents {
         Entity entity = event.getObject();
 
         if (entity instanceof Player) {
-            event.addCapability(ResourceLocation.fromNamespaceAndPath(MoreAttributes.MODID, "class"), new ClassCapabilityProvider());
+            event.addCapability(ResourceLocation.fromNamespaceAndPath(MoreAttributes.MODID, "class"), new PlayerClassCapabilityProvider());
         }
     }
 
     @SubscribeEvent
-    public static void clone(PlayerEvent.Clone event) {
-        var original = event.getOriginal();
+    public static void onPlayerClone(PlayerEvent.Clone event) {
+        if (event.isWasDeath()) {
+            var originalPlayer = event.getOriginal();
+            originalPlayer.reviveCaps();
 
-        var entity = event.getEntity();
+            var originalCap = originalPlayer.getCapability(MoreAttributes.PLAYER_CLASS).resolve().orElse(null);
 
-        ClassUtils.setPlayerClass(entity, ClassUtils.getPlayerClass(original));
+            var cloneCap = event.getEntity().getCapability(MoreAttributes.PLAYER_CLASS).resolve().orElse(null);
+
+            if (originalCap != null && cloneCap != null) {
+                cloneCap.deserializeNBT(originalCap.serializeNBT());
+
+                var data = cloneCap.getClassData();
+
+                if (data != null && event.getEntity() instanceof ServerPlayer serverPlayer) {
+                    AttributesChannel.sendToClient(new SyncClassToClientMessage(data), serverPlayer);
+                }
+            }
+
+            originalPlayer.invalidateCaps();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        event.getEntity().getCapability(MoreAttributes.PLAYER_CLASS).ifPresent(cap -> {
+
+        });
     }
 }
