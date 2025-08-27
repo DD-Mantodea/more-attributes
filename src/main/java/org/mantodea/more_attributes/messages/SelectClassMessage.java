@@ -3,18 +3,14 @@ package org.mantodea.more_attributes.messages;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.mantodea.more_attributes.datas.ClassData;
-import org.mantodea.more_attributes.utils.AttributeUtils;
 import org.mantodea.more_attributes.utils.ClassUtils;
 import org.mantodea.more_attributes.utils.ModifierUtils;
 
-import java.util.Objects;
 import java.util.function.Supplier;
 
 public record SelectClassMessage(String className) {

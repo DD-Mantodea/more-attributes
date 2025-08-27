@@ -13,10 +13,10 @@ import org.mantodea.more_attributes.attributes.DetailAttributes;
 import org.mantodea.more_attributes.capability.IClassCapability;
 import org.mantodea.more_attributes.configs.MoreAttributesConfig;
 import org.mantodea.more_attributes.datas.AttributeLoader;
-import org.mantodea.more_attributes.datas.ItemModifierLoader;
-import org.mantodea.more_attributes.messages.AttributesChannel;
 import org.mantodea.more_attributes.datas.ClassLoader;
 import org.mantodea.more_attributes.datas.DetailLoader;
+import org.mantodea.more_attributes.datas.ItemModifierLoader;
+import org.mantodea.more_attributes.messages.AttributesChannel;
 import org.mantodea.more_attributes.utils.AttributeUtils;
 import org.slf4j.Logger;
 

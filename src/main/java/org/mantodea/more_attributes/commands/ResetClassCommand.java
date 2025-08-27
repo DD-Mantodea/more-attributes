@@ -5,14 +5,10 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.ai.attributes.Attribute;
 import org.mantodea.more_attributes.messages.AttributesChannel;
 import org.mantodea.more_attributes.messages.ResetClassMessage;
-import org.mantodea.more_attributes.utils.AttributeUtils;
 import org.mantodea.more_attributes.utils.ClassUtils;
 import org.mantodea.more_attributes.utils.ModifierUtils;
-
-import java.util.Objects;
 
 public class ResetClassCommand {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {

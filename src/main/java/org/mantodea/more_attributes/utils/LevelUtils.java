@@ -1,7 +1,5 @@
 package org.mantodea.more_attributes.utils;
 
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.player.Player;
 import org.mantodea.more_attributes.MoreAttributes;
 

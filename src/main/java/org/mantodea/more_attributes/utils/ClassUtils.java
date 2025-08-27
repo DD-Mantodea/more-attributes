@@ -1,7 +1,6 @@
 package org.mantodea.more_attributes.utils;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;

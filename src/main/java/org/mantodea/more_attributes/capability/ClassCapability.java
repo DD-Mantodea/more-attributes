@@ -1,8 +1,6 @@
 package org.mantodea.more_attributes.capability;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.common.util.INBTSerializable;
-import org.checkerframework.checker.units.qual.C;
 import org.mantodea.more_attributes.datas.ClassData;
 
 import java.util.HashMap;

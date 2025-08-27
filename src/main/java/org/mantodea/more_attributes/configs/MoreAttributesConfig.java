@@ -1,7 +1,5 @@
 package org.mantodea.more_attributes.configs;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.Options;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class MoreAttributesConfig {
