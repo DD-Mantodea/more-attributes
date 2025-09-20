@@ -4,25 +4,39 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.mantodea.more_attributes.datas.ClassData;
+import org.mantodea.more_attributes.utils.ClassUtils;
 import org.mantodea.more_attributes.utils.ItemUtils;
 import org.mantodea.more_attributes.utils.LevelUtils;
 
 import java.util.Objects;
 
 public class MoreAttributesBinding {
-    public void upgrade(Player player, String attributeName, int level) {
+    public static void upgrade(Player player, String attributeName, int level) {
         LevelUtils.upgrade(player, attributeName, level);
     }
 
-    public int getLevel(Player player, String attributeName) {
+    public static int getLevel(Player player, String attributeName) {
         return LevelUtils.getLevel(player, attributeName);
     }
 
-    public int getItemWeight(String item) {
+    public static void setLevel(Player player, String attributeName, int level) {
+        LevelUtils.setLevel(player, attributeName, level);
+    }
+
+    public static String getPlayerClass(Player player) {
+        return getPlayerClassData(player).name;
+    }
+
+    public static ClassData getPlayerClassData(Player player) {
+        return ClassUtils.getPlayerClass(player);
+    }
+
+    public static int getItemWeight(String item) {
         return ItemUtils.getWeight(new ItemStack(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(item)))));
     }
 
-    public void setItemWeight(String item, int weight) {
+    public static void setItemWeight(String item, int weight) {
         ItemUtils.ItemWeights.put(item, weight);
     }
 }

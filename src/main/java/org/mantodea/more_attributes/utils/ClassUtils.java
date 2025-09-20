@@ -1,5 +1,6 @@
 package org.mantodea.more_attributes.utils;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -8,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import org.mantodea.more_attributes.MoreAttributes;
 import org.mantodea.more_attributes.datas.ClassData;
-import org.mantodea.more_attributes.datas.ClassLoader;
+import org.mantodea.more_attributes.ui.SelectClassScreen;
 
 import java.util.List;
 
@@ -27,10 +28,6 @@ public class ClassUtils {
         return lines.stream().map(str -> Component.literal(str).withStyle(sung)).toList();
     }
 
-    public static ClassData getClassData(String className) {
-        return ClassLoader.Classes.stream().filter(c -> c.name.equals(className)).findFirst().orElse(null);
-    }
-
     public static boolean hasSelectClass(Player player) {
         var cap = player.getCapability(MoreAttributes.PLAYER_CLASS).resolve().orElse(null);
 
@@ -41,23 +38,25 @@ public class ClassUtils {
         return false;
     }
 
-    public static String getPlayerClass(Player player) {
+    public static ClassData getPlayerClass(Player player) {
         var cap = player.getCapability(MoreAttributes.PLAYER_CLASS).resolve().orElse(null);
 
         if (cap != null) {
-            return cap.getClassName();
+            return cap.getClassData();
         }
 
-        return null;
+        return new ClassData();
     }
 
-    public static void setPlayerClass(Player player, String className) {
-        var data = className.isEmpty() ? new ClassData() : ClassLoader.Classes.stream().filter(c -> c.name.equals(className)).findFirst().orElse(null);
+    public static void setPlayerClass(Player player, ClassData classData) {
+        player.getCapability(MoreAttributes.PLAYER_CLASS).resolve().ifPresent(cap -> {
+            cap.setClass(classData);
 
-        if (data == null) {
-            return;
-        }
+            if (!ClassUtils.hasSelectClass(player) && !player.isDeadOrDying()) {
+                Minecraft.getInstance().setScreen(new SelectClassScreen());
+            }
+        });
 
-        player.getCapability(MoreAttributes.PLAYER_CLASS).resolve().ifPresent(cap -> cap.setClass(data));
+
     }
 }

@@ -6,12 +6,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 import org.mantodea.more_attributes.datas.*;
 import org.mantodea.more_attributes.datas.ClassLoader;
+import org.mantodea.more_attributes.ui.SelectClassScreen;
 import org.mantodea.more_attributes.utils.ClassUtils;
+import org.mantodea.more_attributes.utils.ModifierUtils;
 import org.mantodea.more_attributes.utils.SlotUtils;
 
 import java.util.List;
@@ -31,14 +33,22 @@ public record SyncDataToClientMessage(JsonArray data) {
         NetworkEvent.Context ctx = supplier.get();
 
         ctx.enqueueWork(() -> {
-            Minecraft mc = Minecraft.getInstance();
-            ClientLevel level = mc.level;
-
-            if(level == null) return;
+            Minecraft minecraft = Minecraft.getInstance();
 
             Gson gson = new GsonBuilder().create();
 
-            ClassUtils.setPlayerClass(mc.player, data.get(0).getAsString());
+            Player player = (Player) minecraft.player;
+
+            if (player != null) {
+                ClassUtils.setPlayerClass(player, gson.fromJson(data.get(0), ClassData.class));
+
+                if (!ClassUtils.hasSelectClass(player) && !player.isDeadOrDying()) {
+                    Minecraft.getInstance().setScreen(new SelectClassScreen());
+                }
+                else {
+                    ModifierUtils.DetailModifiers.Level.rebuildModifiers(player);
+                }
+            }
 
             ClassLoader.Classes = gson.fromJson(data.get(1), new TypeToken<List<ClassData>>() {}.getType());
             AttributeLoader.Attributes = gson.fromJson(data.get(2), new TypeToken<List<AttributeData>>() {}.getType());

@@ -7,9 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.mantodea.more_attributes.MoreAttributes;
-import org.mantodea.more_attributes.utils.AttributeUtils;
 import org.mantodea.more_attributes.utils.ModUtils;
 
 import java.util.ArrayList;

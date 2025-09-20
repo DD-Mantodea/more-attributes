@@ -12,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.mantodea.more_attributes.MoreAttributes;
 import org.mantodea.more_attributes.attributes.DetailAttributes;
-import org.mantodea.more_attributes.configs.MoreAttributesConfig;
 import org.mantodea.more_attributes.datas.*;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
@@ -721,57 +720,59 @@ public class ModifierUtils {
         public static class EquipLoad {
             public static UUID speedModifier;
 
+            public static UUID jumpModifier;
+
             public static boolean modifierAdded;
 
             public static void initialize() {
                 speedModifier = UUID.randomUUID();
+
+                jumpModifier = UUID.randomUUID();
 
                 modifierAdded = false;
             }
 
             public static void rebuildModifier(Player player) {
 
-                AttributeInstance instance = player.getAttribute(Attributes.MOVEMENT_SPEED);
+                AttributeInstance speed = player.getAttribute(Attributes.MOVEMENT_SPEED);
 
-                if(instance == null) return;
+                AttributeInstance jump = player.getAttribute(DetailAttributes.JumpForce);
+
+                if (speed == null || jump == null) return;
 
                 if (modifierAdded) {
-                    instance.removeModifier(speedModifier);
+                    speed.removeModifier(speedModifier);
+
+                    jump.removeModifier(jumpModifier);
                 }
 
                 calculateLoad(player);
-
-                double speedMultiplier = 1f;
 
                 double currentLoad = Objects.requireNonNull(player.getAttribute(DetailAttributes.EquipLoadCurrent)).getValue();
 
                 double maxLoad = Objects.requireNonNull(player.getAttribute(DetailAttributes.EquipLoadMax)).getValue();
 
-                double lightLoad = maxLoad * MoreAttributesConfig.Common.Instance.lightPercent.get();
+                double speedMultiplier = 1f;
 
-                double normalLoad = maxLoad * MoreAttributesConfig.Common.Instance.normalPercent.get();
+                double jumpMultiplier = 1f;
 
-                double heavyLoad = maxLoad * MoreAttributesConfig.Common.Instance.heavyPercent.get();
+                if (currentLoad > maxLoad) {
+                    speedMultiplier = 1 - (currentLoad - maxLoad) / maxLoad / 2;
 
-                double overweightLoad = maxLoad * MoreAttributesConfig.Common.Instance.overweightPercent.get();
-
-                if (currentLoad >= lightLoad && currentLoad < normalLoad) {
-                    speedMultiplier = 0.9f;
+                    if (speedMultiplier < 0)
+                        speedMultiplier = 0;
                 }
 
-                if (currentLoad >= normalLoad && currentLoad < heavyLoad) {
-                    speedMultiplier = 0.8f;
+                if (currentLoad > maxLoad * 2.5) {
+                    if (currentLoad < maxLoad * 3)
+                        jumpMultiplier = 0.5f;
+                    else
+                        jumpMultiplier = 0f;
                 }
 
-                if (currentLoad >= heavyLoad && currentLoad < overweightLoad) {
-                    speedMultiplier = 0.7f;
-                }
+                speed.addTransientModifier(new AttributeModifier(speedModifier, "speed", speedMultiplier - 1, AttributeModifier.Operation.MULTIPLY_TOTAL));
 
-                if(heavyLoad >= overweightLoad) {
-                    speedMultiplier = 0.5f;
-                }
-
-                instance.addTransientModifier(new AttributeModifier(speedModifier, "speed", speedMultiplier, AttributeModifier.Operation.MULTIPLY_TOTAL));
+                jump.addTransientModifier(new AttributeModifier(jumpModifier, "jump", jumpMultiplier - 1, AttributeModifier.Operation.MULTIPLY_TOTAL));
 
                 modifierAdded = true;
             }
@@ -883,7 +884,7 @@ public class ModifierUtils {
         return components;
     }
 
-    public static List<Component> getComponentsForLevel(List<ModifierData> modifiers, int level) {
+    public static List<Component> getComponentsForLevel(List<ModifierData> modifiers) {
 
         List<Component> components = new ArrayList<>();
 
@@ -896,9 +897,7 @@ public class ModifierUtils {
             if(detail == null || !ModUtils.checkCondition(detail.displayCondition))
                 continue;
 
-            float val = modifier.value * level;
-
-            addComponentToList(components, modifier, name, val);
+            addComponentToList(components, modifier, name, modifier.value);
         }
 
         return components;

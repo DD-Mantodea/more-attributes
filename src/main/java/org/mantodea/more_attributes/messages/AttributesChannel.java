@@ -9,7 +9,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import org.mantodea.more_attributes.MoreAttributes;
 
 public class AttributesChannel {
-    private static String ProtocolVersion = "1";
+    private static final String ProtocolVersion = "1";
 
     public static SimpleChannel Channel = NetworkRegistry.newSimpleChannel(
         new ResourceLocation(MoreAttributes.MODID, "more_attributes"),
@@ -25,11 +25,13 @@ public class AttributesChannel {
             .encoder(SyncDataToClientMessage::encode)
             .consumerMainThread(SyncDataToClientMessage::handle)
             .add();
+
         Channel.messageBuilder(SyncClassToServerMessage.class, 2, NetworkDirection.PLAY_TO_SERVER)
             .decoder(SyncClassToServerMessage::new)
             .encoder(SyncClassToServerMessage::encode)
             .consumerMainThread(SyncClassToServerMessage::handle)
             .add();
+
         Channel.messageBuilder(SyncClassToClientMessage.class, 3, NetworkDirection.PLAY_TO_CLIENT)
             .decoder(SyncClassToClientMessage::new)
             .encoder(SyncClassToClientMessage::encode)

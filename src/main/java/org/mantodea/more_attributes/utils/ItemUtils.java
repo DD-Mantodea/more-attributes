@@ -29,6 +29,8 @@ public class ItemUtils {
 
         var size = ItemSizeManager.get(stack).getSize(stack);
 
+        if (size == Size.LARGE)
+            weight *= 3;
         if (size == Size.VERY_LARGE)
             weight *= 4;
         if (size == Size.HUGE)

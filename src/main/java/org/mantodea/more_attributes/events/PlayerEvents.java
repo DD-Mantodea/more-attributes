@@ -45,11 +45,6 @@ public class PlayerEvents {
     }
 
     @SubscribeEvent
-    public static void onEnterWorld(PlayerEvent.PlayerLoggedInEvent event) {
-        ModifierUtils.DetailModifiers.initialize();
-    }
-
-    @SubscribeEvent
     public static void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
         Entity entity = event.getObject();
 
@@ -70,22 +65,26 @@ public class PlayerEvents {
 
             if (originalCap != null && cloneCap != null) {
                 cloneCap.deserializeNBT(originalCap.serializeNBT());
-
-                var data = cloneCap.getClassData();
-
-                if (data != null && event.getEntity() instanceof ServerPlayer serverPlayer) {
-                    AttributesChannel.sendToClient(new SyncClassToClientMessage(data), serverPlayer);
-                }
             }
 
             originalPlayer.invalidateCaps();
+
+            ModifierUtils.DetailModifiers.Level.rebuildModifiers(event.getEntity());
         }
     }
 
     @SubscribeEvent
     public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
         event.getEntity().getCapability(MoreAttributes.PLAYER_CLASS).ifPresent(cap -> {
+            var data = cap.getClassData();
 
+            if (data != null && event.getEntity() instanceof ServerPlayer serverPlayer) {
+                serverPlayer.getServer().execute(() -> {
+                    if (serverPlayer.isAddedToWorld()) {
+                        AttributesChannel.sendToClient(new SyncClassToClientMessage(data), serverPlayer);
+                    }
+                });
+            }
         });
     }
 }

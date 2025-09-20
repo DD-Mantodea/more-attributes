@@ -72,7 +72,7 @@ public class AttributeUtils {
 
     public static List<Component> getAttributeDetails(AttributeData data, int level)
     {
-        var list = ModifierUtils.getComponentsForLevel(data.modifiers, level);
+        var list = ModifierUtils.getComponentsForLevel(data.modifiers);
 
         list.add(0, Component.translatable("more_attributes.ui.base_value", Integer.toString(data.baseLevel)));
 

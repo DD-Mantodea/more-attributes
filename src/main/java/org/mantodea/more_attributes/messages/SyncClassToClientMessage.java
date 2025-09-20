@@ -1,7 +1,8 @@
 package org.mantodea.more_attributes.messages;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 import org.mantodea.more_attributes.datas.ClassData;
 import org.mantodea.more_attributes.utils.ClassUtils;
@@ -57,11 +58,11 @@ public record SyncClassToClientMessage(ClassData data) {
         NetworkEvent.Context ctx = context.get();
 
         ctx.enqueueWork(() -> {
-            ServerPlayer player = ctx.getSender();
+            Player player = (Player) Minecraft.getInstance().player;
 
             if (player == null || data == null) return;
 
-            ClassUtils.setPlayerClass(player, data.name);
+            ClassUtils.setPlayerClass(player, data);
 
             ModifierUtils.DetailModifiers.Level.rebuildModifiers(player);
         });

@@ -38,13 +38,9 @@ public class ClientEvents {
             if (event.phase != TickEvent.Phase.END) return;
 
             Minecraft minecraft = Minecraft.getInstance();
-            Player player = minecraft.player;
+            Player player = (Player) minecraft.player;
 
             if (player == null || minecraft.screen instanceof SelectClassScreen || minecraft.screen instanceof ShowClassScreen || ClassLoader.Classes.isEmpty()) return;
-
-            if (!ClassUtils.hasSelectClass(player) && !player.isDeadOrDying()) {
-                minecraft.setScreen(new SelectClassScreen());
-            }
 
             while(OpenUI.consumeClick())
             {
@@ -53,5 +49,6 @@ public class ClientEvents {
                 minecraft.setScreen(screen);
             }
         }
+
     }
 }

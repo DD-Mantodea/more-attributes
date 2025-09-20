@@ -22,7 +22,7 @@ public class ResetClassCommand {
                     .executes(context -> {
                         ServerPlayer player = EntityArgument.getPlayer(context, "player");
 
-                        ClassUtils.setPlayerClass(player, "");
+                        ClassUtils.setPlayerClass(player, new ClassData());
 
                         AttributesChannel.sendToClient(new SyncClassToClientMessage(new ClassData()), player);
 

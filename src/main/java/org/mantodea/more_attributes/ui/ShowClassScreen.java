@@ -227,7 +227,7 @@ public class ShowClassScreen extends Screen {
     {
         if (minecraft != null) {
             if (minecraft.player != null) {
-                classData = ClassUtils.getClassData(ClassUtils.getPlayerClass(minecraft.player));
+                classData = ClassUtils.getPlayerClass(minecraft.player);
 
                 className = Component.translatable(LangUtils.getClassNameKey(classData.name)).withStyle(sung);
 

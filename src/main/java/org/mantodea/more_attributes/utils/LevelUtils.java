@@ -1,7 +1,10 @@
 package org.mantodea.more_attributes.utils;
 
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import org.mantodea.more_attributes.MoreAttributes;
+import org.mantodea.more_attributes.messages.AttributesChannel;
+import org.mantodea.more_attributes.messages.SyncClassToClientMessage;
 
 public class LevelUtils {
 
@@ -15,6 +18,10 @@ public class LevelUtils {
         cap.upgrade(attributeName, level);
 
         ModifierUtils.DetailModifiers.Level.rebuildModifiers(player);
+
+        if (player instanceof ServerPlayer serverPlayer) {
+            AttributesChannel.sendToClient(new SyncClassToClientMessage(ClassUtils.getPlayerClass(player)), serverPlayer);
+        }
     }
 
     public static int getLevel(Player player, String attributeName) {
@@ -37,5 +44,9 @@ public class LevelUtils {
         cap.setLevel(attributeName, level);
 
         ModifierUtils.DetailModifiers.Level.rebuildModifiers(player);
+
+        if (player instanceof ServerPlayer serverPlayer) {
+            AttributesChannel.sendToClient(new SyncClassToClientMessage(ClassUtils.getPlayerClass(player)), serverPlayer);
+        }
     }
 }

@@ -259,7 +259,7 @@ public class SelectClassScreen extends Screen {
 
         if (minecraft != null) {
             if (minecraft.player != null) {
-                ClassUtils.setPlayerClass(minecraft.player, classData.name);
+                ClassUtils.setPlayerClass(minecraft.player, classData);
             }
 
             minecraft.setScreen(null);
