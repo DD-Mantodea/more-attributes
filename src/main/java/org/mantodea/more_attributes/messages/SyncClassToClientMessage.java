@@ -3,6 +3,8 @@ package org.mantodea.more_attributes.messages;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 import org.mantodea.more_attributes.datas.ClassData;
 import org.mantodea.more_attributes.utils.ClassUtils;
@@ -57,16 +59,19 @@ public record SyncClassToClientMessage(ClassData data) {
     public void handle(Supplier<NetworkEvent.Context> context) {
         NetworkEvent.Context ctx = context.get();
 
-        ctx.enqueueWork(() -> {
-            Player player = (Player) Minecraft.getInstance().player;
-
-            if (player == null || data == null) return;
-
-            ClassUtils.setPlayerClass(player, data);
-
-            ModifierUtils.DetailModifiers.Level.rebuildModifiers(player);
-        });
+        ctx.enqueueWork(() -> handle());
 
         ctx.setPacketHandled(true);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void handle() {
+        Player player = (Player) Minecraft.getInstance().player;
+
+        if (player == null || data == null) return;
+
+        ClassUtils.setPlayerClass(player, data);
+
+        ModifierUtils.DetailModifiers.Level.rebuildModifiers(player);
     }
 }

@@ -8,6 +8,8 @@ import com.google.gson.reflect.TypeToken;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.network.NetworkEvent;
 import org.mantodea.more_attributes.datas.*;
 import org.mantodea.more_attributes.datas.ClassLoader;
@@ -31,33 +33,34 @@ public record SyncDataToClientMessage(JsonArray data) {
 
     public void handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context ctx = supplier.get();
-
-        ctx.enqueueWork(() -> {
-            Minecraft minecraft = Minecraft.getInstance();
-
-            Gson gson = new GsonBuilder().create();
-
-            Player player = (Player) minecraft.player;
-
-            if (player != null) {
-                ClassUtils.setPlayerClass(player, gson.fromJson(data.get(0), ClassData.class));
-
-                if (!ClassUtils.hasSelectClass(player) && !player.isDeadOrDying()) {
-                    Minecraft.getInstance().setScreen(new SelectClassScreen());
-                }
-                else {
-                    ModifierUtils.DetailModifiers.Level.rebuildModifiers(player);
-                }
-            }
-
-            ClassLoader.Classes = gson.fromJson(data.get(1), new TypeToken<List<ClassData>>() {}.getType());
-            AttributeLoader.Attributes = gson.fromJson(data.get(2), new TypeToken<List<AttributeData>>() {}.getType());
-            DetailLoader.Details = gson.fromJson(data.get(3), new TypeToken<List<DetailData>>() {}.getType());
-            ItemModifierLoader.Modifiers = gson.fromJson(data.get(4), new TypeToken<List<ItemModifierData>>() {}.getType());
-
-            SlotUtils.getSlots();
-        });
-
+        ctx.enqueueWork(this::handle);
         ctx.setPacketHandled(true);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private void handle() {
+        Minecraft minecraft = Minecraft.getInstance();
+
+        Gson gson = new GsonBuilder().create();
+
+        Player player =  minecraft.player;
+
+        if (player != null) {
+            ClassUtils.setPlayerClass(player, gson.fromJson(data.get(0), ClassData.class));
+
+            if (!ClassUtils.hasSelectClass(player) && !player.isDeadOrDying()) {
+                Minecraft.getInstance().setScreen(new SelectClassScreen());
+            }
+            else {
+                ModifierUtils.DetailModifiers.Level.rebuildModifiers(player);
+            }
+        }
+
+        ClassLoader.Classes = gson.fromJson(data.get(1), new TypeToken<List<ClassData>>() {}.getType());
+        AttributeLoader.Attributes = gson.fromJson(data.get(2), new TypeToken<List<AttributeData>>() {}.getType());
+        DetailLoader.Details = gson.fromJson(data.get(3), new TypeToken<List<DetailData>>() {}.getType());
+        ItemModifierLoader.Modifiers = gson.fromJson(data.get(4), new TypeToken<List<ItemModifierData>>() {}.getType());
+
+        SlotUtils.getSlots();
     }
 }
